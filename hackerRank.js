@@ -45,7 +45,36 @@ let browserOPenPromise = puppeteer.launch({headless:false,
            return loginButtionPromise;
 
       })
+      .then(function(){
+           console.log("logged into hackerrank sucessfully"); 
+           let algorithmTabWillBeOpenPromise= waitAndClick("div[data-automation='algorithms']");
+           return algorithmTabWillBeOpenPromise;
+      })
+      .then(function(){
+           console.log("algorithm page will opened");
+      })
       .catch(function(err)
       {
            console.log(err);
       });
+
+
+      function waitAndClick(algoBtn)
+      {
+           let myPromise = new Promise(function(resolve,reject){
+                let waitForSelectorPromise =cTab.waitForSelector(algoBtn);
+                waitForSelectorPromise
+                 .then(function(){
+                      let clickPromise =cTab.click(algoBtn);
+                      return clickPromise;
+                 })
+                 .then(function(){
+                      resolve();
+                 })
+                 .catch(function(err){
+                      console.log(err);
+                 })
+           });
+
+           return myPromise;
+      }
