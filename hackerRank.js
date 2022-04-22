@@ -52,7 +52,26 @@ let browserOPenPromise = puppeteer.launch({headless:false,
       })
       .then(function(){
            console.log("algorithm page will opened");
+           let allQuesPromise =cTab.waitForSelector('a[data-analytics="ChallengeListChallengeName"]');
+           return allQuesPromise;
       })
+      .then(function(){
+          function getAllQuestionLinks(){
+               let allElemArr =document.querySelectorAll('a[data-analytics="ChallengeListChallengeName"]'); 
+               let linkArr=[];
+               for(let i=0;i<allElemArr.length;i++)
+               {
+                    linkArr.push(allElemArr[i].getAttribute("href"));
+               }
+               return linkArr;
+          }
+          let linksArrPromise =cTab.evaluate(getAllQuestionLinks);
+          return linksArrPromise;
+     })
+     .then(function(linkArr){
+     console.log("Links to all ques received");
+     console.log(linkArr);
+     })
       .catch(function(err)
       {
            console.log(err);
@@ -69,8 +88,11 @@ let browserOPenPromise = puppeteer.launch({headless:false,
                       return clickPromise;
                  })
                  .then(function(){
+                      console.log("algo btn is clicked");
                       resolve();
+                     
                  })
+                 
                  .catch(function(err){
                       console.log(err);
                  })
