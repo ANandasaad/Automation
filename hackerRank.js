@@ -2,8 +2,9 @@ const puppeteer = require("puppeteer");
 let {answer}=require("./codes");
 
 let cTab;
-let email="anandkushwaha70@gmail.com";
-let password="789aditya729A";
+let { email, password } = require('./secrets');
+let email="";
+let password="";
 
 let browserOPenPromise = puppeteer.launch({headless:false, 
      defaultViewport:null, 
